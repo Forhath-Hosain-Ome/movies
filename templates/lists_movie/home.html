@@ -6,6 +6,18 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <form method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit">Submit</button>
+    </form>
+    <div>
+        {% for i in movie %}
+            {{i.title}}
+            {{i.description}}
+            {{i.release_year}}
+            {{i.is_available}}
+        {% endfor %}
+    </div>
 </body>
 </html>
