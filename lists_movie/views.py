@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpRequest
 
 from .forms import moviecreate
-from .models import movies
+from .models import Movies
 from typing import Any
 
 
@@ -17,6 +17,6 @@ def home(request:HttpRequest):
         form = moviecreate()
     context : dict[str, Any] = {
         'form' : form,
-        'movie': movies.objects.all()
+        'movie': Movies.objects.all()
     }
     return render(request, 'lists_movie/home.html',context)

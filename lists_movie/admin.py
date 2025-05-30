@@ -3,4 +3,7 @@ from django.contrib import admin
 from .models import *
 
 # Register your models here.
-admin.site.register(movies)
+admin.site.register(Movies)
+admin.site.register(Director)
+admin.site.register(CoDirector)
+admin.site.register(Actor)

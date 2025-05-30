@@ -5,7 +5,49 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 # Create your models here.
-class movies(models.Model):
+
+class CommonFields(models.Model):
+    name = models.CharField(max_length=25)
+    email = models.EmailField(max_length=40, unique=True)
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+class Director(CommonFields):
+    
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        verbose_name = 'director'
+        verbose_name_plural = 'directors'
+        ordering = ['name']
+        db_table = 'director_table'
+
+class CoDirector(CommonFields):
+
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        db_table = 'co_director'
+        verbose_name = 'co_director'
+        verbose_name_plural = 'co_directors'
+        ordering = ['name']
+
+class Actor(CommonFields):
+
+    def __str__(self):
+        return self.name
+    class Meta:
+        db_table = 'actor'
+        verbose_name = 'actor'
+        verbose_name_plural = 'actors'
+        ordering = ['name']
+
+class Movies(models.Model):
     genre_choices = [
         ('ACT', 'Action'),
         ('MYS', 'Mystery'),
@@ -20,7 +62,10 @@ class movies(models.Model):
     genra = models.CharField(choices=genre_choices, max_length=3)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    Direc = models.ForeignKey(director, on_delete=models.CASCADE)
+    direct = models.ForeignKey(Director, on_delete=models.CASCADE, null=True, related_name='movie_dir')
+    codir = models.ManyToManyField(CoDirector, related_name='CoDirector')
+    actors = models.ManyToManyField(Actor, related_name='movie_actor')
+
 
     def __str__(self):
         return self.title
@@ -31,26 +76,5 @@ class movies(models.Model):
         verbose_name_plural = "Movies"
         db_table = 'movie_table'
 
-class director(models.Model):
-    name = models.CharField(max_length=30)
 
-    def __str__(self):
-        return self.name
     
-    class Meta:
-        varbosa_name = 'director'
-        varbosa_name_plural = 'directors'
-        ordering = ['name']
-        db_table = 'director_table'
-    
-class co_director(models.Model):
-    name = models.CharField(max_length=20)
-
-    def __str__(self):
-        return self.name
-    
-    class Meta:
-        db_table = 'co_director'
-        verbosa_name = 'co_director'
-        verbosa_name_plural = 'co_directors'
-        ordering = ['name']
