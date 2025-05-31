@@ -8,8 +8,8 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 class CommonFields(models.Model):
     name = models.CharField(max_length=25)
-    email = models.EmailField(max_length=40, unique=True)
-    created_at = models.DateField(auto_now_add=True)
+    email = models.EmailField(max_length=40, unique=True, null=True)
+    created_at = models.DateField(auto_now_add=True, null=True)
     updated_at = models.DateField(auto_now=True)
 
     class Meta:
